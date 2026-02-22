@@ -1,0 +1,8 @@
+This is my first experiment file.
+Testing commit process.
+
+
+Today I edited this file to understand how Git tracks changes.
+I am testing the modify → add → commit → push workflow.
+
+branch checking.
