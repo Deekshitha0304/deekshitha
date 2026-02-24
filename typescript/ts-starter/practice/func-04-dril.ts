@@ -37,3 +37,4 @@ function john1(name1: string | number, rollno: number): string | number {
         return name1 + rollno; // number + number
     }
 }
+
