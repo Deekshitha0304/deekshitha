@@ -13,20 +13,6 @@
 
 
 
-// function john(name1:string,rollno:number):string;
-// function john(phone:number,age:number):number;
-
-// function john(name1?:string,rollno?:number,phone:number,age:number):string|number{
-//     if(name1 !== undefined && rollno !== undefined ){
-//         return `Hi ${name1}, and ${rollno}`
-//     }
-//     return `hi ${phone},${age}`;
-// }
-
-
-// console.log(john("swati",26))
-
-
 
 
 

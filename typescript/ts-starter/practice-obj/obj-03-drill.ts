@@ -1,7 +1,6 @@
 type intro = {
     name : string,
     middlename?: string;
-
 };
 
 const Student1:intro={
