@@ -37,6 +37,15 @@ class Store<T>{
 
 const user = new Store<number>();
 user.open();
+
+
+try {
+    console.log(user.get("Id"));   // This will throw
+} catch (error) {
+    console.log("Error caught:", (error as Error).message);
+}
+
+
 user.set("Id",22);
 console.log(user.get("Id"));
 
