@@ -12,10 +12,10 @@ class SubDemo extends Demo{
 }
 
 
-const Student = new Demo("Deekshi",638768329,568);
+const Student = new Demo("User",638768329,568);
 console.log(Student.getValue());
 
-const Student1=new SubDemo("Swati",736788732,927);              // Protected is accessed from extended class
+const Student1=new SubDemo("User2",736788732,927);              // Protected is accessed from extended class
 console.log(Student1.getStudentID());
 
 
@@ -32,3 +32,5 @@ class test {
 const credentials = new test();
 // console.log(credentials.#password);
  
+
+
