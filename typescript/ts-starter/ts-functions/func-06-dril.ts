@@ -49,5 +49,5 @@ function handleAction(action:Action){
 console.log("start");
 console.log("stop");
 
-// console.log(handleAction("pause"));
+console.log(handleAction("start"));
 
