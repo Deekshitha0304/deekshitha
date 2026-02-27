@@ -1,4 +1,13 @@
-type PromiseType<T> = T extends Promise<infer U> ? U : T;
+type PromiseType<T> = T extends Promise<infer U> ? U : T;           // Infer will read what is inside 
+
+
+//Box<Chocolate>
+// type GetInside<T> =
+// T extends Box<infer U> ? U : never;
+
+// Take out the type that is inside another type
+
+
 
 type X = PromiseType<Promise<string>>;
 type Y = PromiseType<Promise<number>>;
