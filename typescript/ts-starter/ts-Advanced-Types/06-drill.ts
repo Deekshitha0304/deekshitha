@@ -23,6 +23,8 @@ console.log(userrr)
 
 type StrictFields = Required<fields>            // Now when we use this type ..then it makes all mandatory
 
+// Used utility types to transform existing types instead of rewriting them (Required, Readonly).
+
 
 
 
@@ -34,6 +36,7 @@ const userr:FrozeFields={name:"Deekshi",id:21};
 // userr.id=22      //cannot assign 
 
 
+// Required<T> forces optional fields to mandatory; Readonly<T> prevents modification after assignment.
 
 
 
@@ -76,3 +79,5 @@ let letter5: WithoutA = "c";
 console.log("Exclude Result:");
 console.log(letter4);
 console.log(letter5);
+
+//  Extract keeps matching union members; Exclude removes specified members from a union.
