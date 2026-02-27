@@ -1,6 +1,6 @@
 Timeline Tracking
 Time = 0 sec
-
+```bash
 Semaphore count = 2
 
 Task 1 calls acquire() → count becomes 1 → starts
