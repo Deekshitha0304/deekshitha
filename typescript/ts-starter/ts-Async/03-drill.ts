@@ -7,15 +7,13 @@ async function fetchUser(id: string): Promise<TestUser> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ id, name: `User-${id}` });
-    }, 1000); // 1 second delay
+    }, 2000); 
   });
 }
 
 //Sequential Execution
 
-async function sequential() {                                   // Step 1 → wait 1 sec
-                                                                // Step 2 → wait another 1 sec
-                                                                // ⏳ Total ≈ 2 seconds
+async function sequential() {                                   // Step 1 -> wait 2 sec
 
   console.time("Sequential");
 
@@ -24,10 +22,11 @@ async function sequential() {                                   // Step 1 → wa
 
   console.log(user1, user2);
 
-  console.timeEnd("Sequential");
+  console.timeEnd("Sequential");                               // Gives total time
 }
 
 sequential();
+// sequential() -> waits for first user, then second user, so total time is about 4 seconds.
 
 
 
@@ -47,6 +46,9 @@ async function parallel() {
 
 parallel();
 
+// parallel() -> fetches both users at the same time, so total time is about 2 second.
+
+
 
 
 
@@ -65,7 +67,7 @@ async function fetchUserWithFailure(id: string): Promise<TestUser> {
 }
 
 async function parallelSettled() {
-  console.time("AllSettled");
+  console.time("AllSettled");                                     // Step 2 -> wait another 1 sec
 
   const results = await Promise.allSettled([
     fetchUserWithFailure("1"),
@@ -78,3 +80,5 @@ async function parallelSettled() {
 }
 
 parallelSettled();
+
+// parallelSettled() -> fetches both users and gives result for both, even if one fails.

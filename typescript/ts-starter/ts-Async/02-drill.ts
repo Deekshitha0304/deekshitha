@@ -1,3 +1,5 @@
+export{};
+
 type User11 = {
   id: string;
   name: string;
@@ -6,7 +8,7 @@ type User11 = {
 
 //Create fetchUser with setTimeout
 
-async function fetchUser1(id: string): Promise<User11> {
+async function fetchUser(id: string): Promise<User11> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -14,9 +16,11 @@ async function fetchUser1(id: string): Promise<User11> {
         name: "Deekshi",
         email: "deekshi@example.com",
       });
-    }, 1000);
+    }, 3000);  // 3000 milliseconds
   });
 }
+
+
 
 
 // Call It from Another Async Function (Using await)
@@ -30,17 +34,18 @@ async function main() {
 
 main();                                     // After 1 sec data will be fetched
 
-//fetchUser() → returns Promise<User>
+//fetchUser() -> returns Promise<User>
 
-//await → unwraps it into User
+//await -> Consumes result
 
 
 
 //Remove await Accidentally
+
 async function test() {
   const user = fetchUser("101"); //  No await
 
   console.log("User:", user);
-//   console.log("User Name:", user.name); //  Error
+//   console.log("User Name:", user.name);    //  Error
 }
-
+// without await it remains as a PROMISE

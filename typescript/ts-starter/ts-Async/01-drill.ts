@@ -1,4 +1,5 @@
-export{};
+export{}; // make this file as module -> prevents global conflits
+
 const value: Promise<number> = new Promise((resolve, reject) => {
   resolve(42);
 });
@@ -12,7 +13,7 @@ value.then((result) => {
 //Async Function Returning Promise<number>
 
 
-async function add(a: number, b: number): Promise<number> {
+async function add(a: number, b: number): Promise<number> {               // makes the function to return a promise 
   return a + b;
 }
 Promise<number>
@@ -45,4 +46,4 @@ const p = new Promise<number>((resolve) => {
 
 //Awaiting a Promise
 
-const result = await p;
+const result = await p;               // consuming result
