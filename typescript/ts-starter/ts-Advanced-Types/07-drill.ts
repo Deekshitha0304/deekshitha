@@ -19,6 +19,6 @@ console.log("Handler 3:", handler3);
 // `on${}` => template literal type ---> attaches on before each value
 // so EventHandlerNames = "onClick" | "onHover" | "onFocus" 
 
-//  Defined a union type "Events" to represent allowed event names.
-//  Used Template Literal Types with Capitalize<> to transform "click" → "onClick" pattern.
-//  TypeScript automatically generates "onClick" | "onHover" | "onFocus" and enforces strict type safety.
+// Defined a union type "Events" to represent allowed event names.
+// Used Template Literal Types with Capitalize<> to transform "click" → "onClick" pattern.
+// TypeScript automatically generates "onClick" | "onHover" | "onFocus" and enforces strict type safety.

@@ -19,8 +19,7 @@ const userrr:StrictFields={
 }
 console.log(userrr)
 
-
-
+//Required()
 type StrictFields = Required<fields>            // Now when we use this type ..then it makes all mandatory
 
 // Used utility types to transform existing types instead of rewriting them (Required, Readonly).
