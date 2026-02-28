@@ -16,7 +16,7 @@ async function fetchUser(id: string): Promise<User11> {
         name: "Deekshi",
         email: "deekshi@example.com",
       });
-    }, 3000);  // 3000 milliseconds
+    }, 3000); 
   });
 }
 
