@@ -18,8 +18,6 @@ Starting task 2
 
 Only 2 tasks running. 
 
-
-
 Time = 1 sec
 
 Task 1 finishes.
@@ -89,7 +87,7 @@ Finished task 4
 Finally:
 
 All Done: [ 'Result 1', 'Result 2', 'Result 3', 'Result 4' ]
-📊 Final Output Order
+ Final Output Order
 Starting task 1
 Starting task 2
 Finished task 1
