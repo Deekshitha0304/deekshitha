@@ -1,0 +1,18 @@
+{
+  "name": "nd-foundations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node 03-drill.js",
+    "double": "echo one && echo two",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}
