@@ -1,0 +1,10 @@
+{
+  "name": "01-process-playground",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "lint": "echo \"No lint configured\"",
+    "debug": "node --inspect --loader tsx src/index.ts"
+  }
+}
