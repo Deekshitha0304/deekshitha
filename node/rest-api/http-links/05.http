@@ -1,0 +1,26 @@
+### Get all tasks
+GET http://localhost:3004/tasks
+
+### Get single task
+GET http://localhost:3004/tasks/1
+
+### Task not found (404)
+GET http://localhost:3004/tasks/99
+
+### Create task
+POST http://localhost:3004/tasks
+Content-Type: application/json
+
+{
+"title": "Learn Error Handling"
+}
+
+### Validation error (400)
+POST http://localhost:3004/tasks
+Content-Type: application/json
+
+{
+}
+
+### Trigger server error (500)
+GET http://localhost:3004/error

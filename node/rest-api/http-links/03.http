@@ -1,0 +1,58 @@
+### Get all tasks
+GET http://localhost:3002/tasks
+
+
+### Filter tasks by completed = true
+GET http://localhost:3002/tasks?completed=true
+
+
+### Filter tasks by completed = false
+GET http://localhost:3002/tasks?completed=false
+
+
+### Create a valid task
+POST http://localhost:3002/tasks
+Content-Type: application/json
+
+{
+"title": "Learn Zod validation"
+}
+
+
+### Create task - invalid (title empty)
+POST http://localhost:3002/tasks
+Content-Type: application/json
+
+{
+"title": ""
+}
+
+
+### Create task - invalid (missing title)
+POST http://localhost:3002/tasks
+Content-Type: application/json
+
+{
+}
+
+
+### Get single task
+GET http://localhost:3002/tasks/1
+
+
+### Get task that does not exist
+GET http://localhost:3002/tasks/999
+
+
+### Update task
+PUT http://localhost:3002/tasks/1
+Content-Type: application/json
+
+{
+"title": "Updated task title",
+"completed": true
+}
+
+
+### Delete task
+DELETE http://localhost:3002/tasks/2
