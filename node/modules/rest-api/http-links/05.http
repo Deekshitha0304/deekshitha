@@ -20,6 +20,7 @@ POST http://localhost:3004/tasks
 Content-Type: application/json
 
 {
+    
 }
 
 ### Trigger server error (500)

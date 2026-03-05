@@ -2,7 +2,7 @@
 GET http://localhost:3003/tasks
 
 ### Pagination
-GET http://localhost:3003/tasks?page=1&limit=2
+GET http://localhost:3003/tasks?page=1&limit=3
 
 ### Filter completed tasks
 GET http://localhost:3003/tasks?completed=true
@@ -11,12 +11,12 @@ GET http://localhost:3003/tasks?completed=true
 GET http://localhost:3003/tasks?sort=createdAt&order=desc
 
 ### Pagination + filter
-GET http://localhost:3003/tasks?page=1&limit=2&completed=false
+GET http://localhost:3003/tasks?page=2&limit=2&completed=true
 
 ### Create new task
 POST http://localhost:3003/tasks
 Content-Type: application/json
 
 {
-"title": "Build API"
+"title": "Build API",
 }

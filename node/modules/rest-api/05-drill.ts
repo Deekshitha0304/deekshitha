@@ -89,7 +89,7 @@ app.get("/error", (req, res, next) => {
   throw new Error("Unexpected server failure");
 });
 
-//Central error middleware
+//Central error middleware          // all errors comes here
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
   sendProblem(

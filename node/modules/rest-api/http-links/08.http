@@ -1,0 +1,14 @@
+### Get tasks from v1 API
+GET http://localhost:3000/v1/tasks
+
+
+### Get tasks from v2 API
+GET http://localhost:3000/v2/tasks
+
+
+### Metrics endpoint
+GET http://localhost:3000/metrics
+
+
+### Invalid endpoint (should increase error count)
+GET http://localhost:3000/v1/unknown
