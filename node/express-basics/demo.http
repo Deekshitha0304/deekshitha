@@ -1,26 +1,130 @@
-# 1. Health Check
-GET http://localhost:3000/health
+### -------------------------------
+### Drill 1 — Hello Express
+### -------------------------------
 
-###
+### Drill 01 - Root Route
+GET http://localhost:4000/
 
-# 2. Server Info
-GET http://localhost:3000/api/info
+### Drill 01 - Ping Route
+GET http://localhost:4000/ping
 
-###
 
-# 3. Echo Body
-POST http://localhost:3000/api/echo
+### Drill 02 - Get User by ID (Path Parameter)
+GET http://localhost:3000/users/42
+
+
+### Drill 02 - Search (Query Parameter)
+GET http://localhost:3000/search?q=node
+
+
+### Drill 02 - User Posts (Path + Query)
+GET http://localhost:3000/users/42/posts?limit=4
+
+
+### Drill 02 - Test 404 Route
+GET http://localhost:3000/unknown
+
+
+### Drill 03 - Echo JSON
+POST http://localhost:6000/echo
 Content-Type: application/json
 
 {
-    "message": "Hello from Noteserver!",
-    "timestamp": "{{$datetime iso8601}}"
+  "name": "Deekshi",
+  "role": "developer"
 }
 
 
-###
+### Drill 03 - Echo Form Data
+POST http://localhost:6000/echo
+Content-Type: application/x-www-form-urlencoded
 
-# 4. Error Handling (404)
-GET http://localhost:3000/api/unknown-route
+name=Deekshi&city=Rajahmundry
 
-###
+
+### Drill 03 - Invalid JSON Test
+POST http://localhost:6000/echo
+Content-Type: application/json
+
+{
+  "name": "Deekshi",
+}
+
+### Drill 04 - Success Status
+GET http://localhost:9000/success
+
+
+### Drill 04 - Create Resource
+POST http://localhost:9000/create
+
+
+### Drill 04 - Bad Request
+GET http://localhost:9000/bad
+
+
+### Drill 04 - Not Found
+GET http://localhost:9000/missing
+
+
+### Drill 04 - Custom Headers
+GET http://localhost:9000/headers
+
+
+### Drill 04 - JSON Response
+GET http://localhost:9000/json
+
+
+### Drill 04 - Text Response
+GET http://localhost:9000/text
+
+
+### Drill 04 - Send File
+GET http://localhost:9000/file
+
+
+### Drill 04 - Redirect
+GET http://localhost:9000/google
+
+
+
+### Drill 05 - Home Route
+GET http://localhost:1000/
+
+
+### Drill 05 - Admin Route (adminMiddleware will run)
+GET http://localhost:1000/admin
+
+
+### Drill 05 - Order Route
+GET http://localhost:1000/order
+
+
+### Drill 06 - Server Check
+GET http://localhost:8000/
+
+
+### Drill 06 - Sync Error Route
+GET http://localhost:8000/error
+
+
+### Drill 06 - Async Error Route
+GET http://localhost:8000/async-error
+
+### Drill 07 - Server Check
+GET http://localhost:4000/
+
+
+### Drill 07 - Users Router
+GET http://localhost:4000/api/users
+
+
+### Drill 07 - Users Router Example (ID)
+GET http://localhost:4000/api/users/1
+
+
+### Drill 07 - Posts Router
+GET http://localhost:4000/api/posts
+
+
+### Drill 07 - Posts Router Example (ID)
+GET http://localhost:4000/api/posts/1

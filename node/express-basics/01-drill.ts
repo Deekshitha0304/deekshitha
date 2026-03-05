@@ -32,18 +32,3 @@ process.on("SIGINT", () => {
   });
 });
 
-
-// test port using curl http://localhost:4000/ping
-
-
-// Creating an Express application
-
-// Defining routes using app.get()
-
-// Returning text and JSON responses
-
-// Starting a server with app.listen()
-
-// Testing APIs with curl
-
-// Handling graceful shutdown using SIGINT

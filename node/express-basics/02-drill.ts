@@ -16,7 +16,7 @@ app.get("/users/:id", (req, res) => {
 });
 
 
-// query parameter
+// query parameter                                      // for filtering,searching,sorting
 app.get("/search", (req, res) => {
   const q = req.query.q;
 
@@ -24,7 +24,6 @@ app.get("/search", (req, res) => {
     search: q
   });
 });
-
 
 // params + query
 app.get("/users/:id/posts", (req, res) => {
@@ -50,3 +49,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+

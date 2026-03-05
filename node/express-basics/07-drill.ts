@@ -4,32 +4,25 @@ import postsRouter from "./routers/posts";
 
 const app = express();
 
-/*
-Drill Task:
-Add router-level middleware
-*/
+//Add router-level middleware
 
 function routerLogger(req: Request, res: Response, next: NextFunction) {
   console.log("Router middleware triggered");
   next();
 }
 
-/*
-Drill Task:
-Mount router at /api prefix
-*/
+//Mount router at /api prefix
 
 app.use("/api/users", routerLogger, usersRouter);
 app.use("/api/posts", postsRouter);
 
-/*
-Normal route
-*/
+//Normal route
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Main Server Running");
 });
 
-const PORT = 3000;
+const PORT = 4000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
