@@ -1,0 +1,13 @@
+### Get all tasks
+GET http://localhost:3005/tasks
+
+### Create task
+POST http://localhost:3005/tasks
+Content-Type: application/json
+
+{
+"title": "Learn Pino logging"
+}
+
+### Delete task
+DELETE http://localhost:3005/tasks/1

@@ -1,0 +1,29 @@
+### Get all tasks
+GET http://localhost:3001/tasks
+
+
+### Create new task
+POST http://localhost:3001/tasks
+Content-Type: application/json
+
+{
+  "title": "Learn REST API"
+}
+
+
+### Get task by id
+GET http://localhost:3001/tasks/1
+
+
+### Update task
+PUT http://localhost:3001/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Updated task title",
+  "completed": true
+}
+
+
+### Delete task
+DELETE http://localhost:3001/tasks/1
