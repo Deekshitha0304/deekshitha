@@ -1,0 +1,19 @@
+### Health Check
+GET http://localhost:6000/health
+
+
+### Server Info
+GET http://localhost:6000/api/info
+
+
+### Echo Body
+POST http://localhost:6000/api/echo
+Content-Type: application/json
+
+{
+  "message": "Hello Express"
+}
+
+
+### Static File
+GET http://localhost:6000/index.html
