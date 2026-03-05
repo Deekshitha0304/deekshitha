@@ -27,10 +27,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-/*
-Drill Task 3:
-Add middleware that adds a requestId to each request
-*/
+
+// Add middleware that adds a requestId to each request
+
 app.use((req: Request & { requestId?: string }, res: Response, next: NextFunction) => {
   const id = Math.random().toString(36).substring(2, 8);
   req.requestId = id;
@@ -39,19 +38,15 @@ app.use((req: Request & { requestId?: string }, res: Response, next: NextFunctio
   next();
 });
 
-/*
-Drill Task 4:
-Apply middleware to only specific routes
-*/
+//Apply middleware to only specific routes
+
 function adminMiddleware(req: Request, res: Response, next: NextFunction) {
   console.log("Admin middleware executed");
   next();
 }
 
-/*
-Drill Task 5:
-Demonstrate middleware execution order
-*/
+//Demonstrate middleware execution order
+
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log("Middleware 1 executed");
   next();
@@ -62,9 +57,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-/*
-Normal routes
-*/
+
+//Normal routes
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Home Route");
 });
@@ -78,10 +73,9 @@ app.get("/order", (req: Request, res: Response) => {
   res.send("Order Route");
 });
 
-/*
-Start server
-*/
-const PORT = 3000;
+//Start server
+
+const PORT = 1000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

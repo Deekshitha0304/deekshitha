@@ -3,10 +3,10 @@ import express from "express";
 const app = express();
 
 // JSON middleware
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "1mb" })); 
 
 // form middleware
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));            // form text -> js obj
 
 // POST route
 app.post("/echo", (req, res) => {
@@ -17,7 +17,7 @@ app.post("/echo", (req, res) => {
   });
 });
 
-// malformed JSON handler
+// Error JSON handler                                         // error middleware
 app.use((err: any, req: any, res: any, next: any) => {
   if (err instanceof SyntaxError) {
     return res.status(400).json({
@@ -29,23 +29,12 @@ app.use((err: any, req: any, res: any, next: any) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
 
-
-// Test JSON Request
-// curl -X POST http://localhost:3000/echo \
-// -H "Content-Type: application/json" \
-// -d '{"name":"Deekshi","role":"developer"}'
-
-
-// Test Form Data
-// curl -X POST http://localhost:3000/echo \
-// -H "Content-Type: application/x-www-form-urlencoded" \
-// -d "name=Deekshi&role=developer"
 
 
