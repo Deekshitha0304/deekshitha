@@ -38,7 +38,7 @@ app.get("/tasks", (req, res) => {
 
   const { page, limit, completed, sort, order } = result.data;
 
-  let data = [...tasks];
+  let data = [...tasks];                  // copy of org data
 
   //Filtering
   if (completed) {

@@ -11,7 +11,7 @@ const PORT = 3005;
 const isProd = process.env.NODE_ENV === "production";
 
 //Create logger
-const logger = pino({
+const logger = pino({                             // logger obj created
   level: isProd ? "info" : "debug"
 });
 
@@ -19,7 +19,7 @@ const logger = pino({
 app.use(
   pinoHttp({
     logger,
-    genReqId: () => Math.random().toString(36).substring(2, 10)
+    genReqId: () => Math.random().toString(36).substring(2, 10)  
   })
 );
 
@@ -110,6 +110,6 @@ app.delete("/tasks/:id", (req, res) => {
 
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, () => {                                    // for pino logger.info -> structured logs
   logger.info(`Server running on http://localhost:${PORT}`);
 });
