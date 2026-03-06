@@ -1,0 +1,11 @@
+### Profile route (user allowed)
+GET http://localhost:3003/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzI3NzMzNDEsImV4cCI6MTc3Mjc3MzQwMX0.ohqD2jk2usxkdkeyMefacQNCBk6DTLWIditDhqb7NkM
+
+### Admin route (admin required)
+GET http://localhost:3003/admin
+Authorization: Bearer ADMIN_TOKEN
+
+### Admin route with user token (should fail)
+GET http://localhost:3003/admin
+Authorization: Bearer USER_TOKEN

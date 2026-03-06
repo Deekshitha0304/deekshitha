@@ -1,0 +1,21 @@
+### Register
+POST http://localhost:3004/register
+Content-Type: application/json
+
+{
+  "email": "jwt@test.com",
+  "password": "mypassword"
+}
+
+### Login (get token)
+POST http://localhost:3004/login
+Content-Type: application/json
+
+{
+  "email": "jwt@test.com",
+  "password": "mypassword"
+}
+
+### Access protected route
+GET http://localhost:3004/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzI3MDk4NTUsImV4cCI6MTc3MjcwOTkxNX0.fkuYKkUfrjkMiN9bE9DmSILbCJd49porkjWSTvvOaY8
