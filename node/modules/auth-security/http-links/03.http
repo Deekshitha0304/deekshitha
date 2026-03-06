@@ -1,0 +1,35 @@
+### Register user
+POST http://localhost:3003/register
+Content-Type: application/json
+
+{
+  "email": "test1@example.com",
+  "password": "mypassword"
+}
+
+### Login with correct password
+POST http://localhost:3003/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "mypassword"
+}
+
+### Login with wrong password
+POST http://localhost:3003/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "wrongpassword"
+}
+
+### Register duplicate email (should fail)
+POST http://localhost:3003/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "anotherpass"
+}

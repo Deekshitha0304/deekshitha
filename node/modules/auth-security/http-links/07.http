@@ -1,0 +1,11 @@
+### Test route
+GET http://localhost:3003/test
+
+### Login test
+POST http://localhost:3003/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "mypassword"
+}

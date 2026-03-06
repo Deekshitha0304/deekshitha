@@ -1,0 +1,9 @@
+### Public route (no token needed)
+GET http://localhost:3003/public
+
+### Protected route without token (should fail)
+GET http://localhost:3003/profile
+
+### Protected route with token
+GET http://localhost:3003/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzI3MTAxNjksImV4cCI6MTc3MjcxMDIyOX0.xwjYG0N36WV0i--VIaMKs3XkHQa_LhyVpqHMxa7dWLQ
