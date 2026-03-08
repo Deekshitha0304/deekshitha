@@ -1,0 +1,23 @@
+
+
+
+{
+  "name": "06-external-api-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  },
+  "devDependencies": {
+    "msw": "^2.12.10",
+    "vitest": "^4.0.18"
+  }
+}
