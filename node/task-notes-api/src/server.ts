@@ -5,6 +5,10 @@ import { logger } from "./logger.js"
 import { taskRouter } from "./routes/tasks.js"
 import { authRouter } from "./routes/auth.js"
 import { MetricsCollector } from "./metrics.js"
+import { errorHandler } from "./middleware/errorHandler.js"
+import { v4 as uuidv4 } from "uuid"
+import swaggerUi from "swagger-ui-express"
+import { swaggerSpec } from "./swagger.js"
 
 export class TaskServer {
 
@@ -16,6 +20,7 @@ export class TaskServer {
     this.app = express()
     this.metrics = new MetricsCollector()
     this.setupApp()
+    this.app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
   }
 
   getApp() {
@@ -27,16 +32,19 @@ export class TaskServer {
     // JSON parser
     this.app.use(express.json())
 
-    // Metrics middleware
+    // Request ID + Logging middleware
     this.app.use((req: Request, res: Response, next: NextFunction) => {
-      this.metrics.recordRequest()
-      next()
-    })
 
-    // Request logger
-    this.app.use((req: Request, res: Response, next: NextFunction) => {
-      logger.info(`${req.method} ${req.url}`)
+      const requestId = uuidv4()
+
+      ;(req as any).requestId = requestId
+
+      logger.info(`[${requestId}] ${req.method} ${req.url}`)
+
+      this.metrics.recordRequest()
+
       next()
+
     })
 
     // Routes
@@ -62,6 +70,10 @@ export class TaskServer {
         error: "Route not found"
       })
     })
+
+    // Global error handler (must be LAST)
+    this.app.use(errorHandler)
+
   }
 
   async start(): Promise<void> {
