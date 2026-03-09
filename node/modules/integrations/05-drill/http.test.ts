@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import "../tests/setup";
+import "./setup";
 
 
 //Happy Path Test

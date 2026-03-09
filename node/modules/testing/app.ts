@@ -1,6 +1,6 @@
-import express from "express";
-import { Pool } from "pg";
-import { randomUUID } from "crypto";
+import express from 'express';
+import { Pool } from 'pg';
+import { randomUUID } from 'crypto';
 
 export function createApp(pool: Pool) {
   const app = express();
@@ -12,31 +12,30 @@ export function createApp(pool: Pool) {
     next();
   });
 
-  app.get("/users/:id", async (req: any, res) => {
+  app.get('/users/:id', async (req: any, res) => {
     try {
-      const result = await pool.query(
-        "SELECT * FROM users WHERE id=$1",
-        [req.params.id]
-      );
+      const result = await pool.query('SELECT * FROM users WHERE id=$1', [
+        req.params.id,
+      ]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({
-          type: "about:blank",
-          title: "Not Found",
+          type: 'about:blank',
+          title: 'Not Found',
           status: 404,
-          detail: "User not found",
+          detail: 'User not found',
         });
       }
 
       res.json(result.rows[0]);
     } catch (err) {
-      console.error("db error", { requestId: req.requestId });
+      console.error('db error', { requestId: req.requestId });
 
       res.status(503).json({
-        type: "about:blank",
-        title: "Service Unavailable",
+        type: 'about:blank',
+        title: 'Service Unavailable',
         status: 503,
-        detail: "database unavailable",
+        detail: 'database unavailable',
       });
     }
   });
