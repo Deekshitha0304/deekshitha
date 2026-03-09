@@ -1,17 +1,18 @@
 import { Router, Request, Response } from "express"
 import { z } from "zod"
 import { randomUUID } from "crypto"
-import { FileStorage } from "../storage"
-import { Task } from "../models/task"
+import { FileStorage } from "../storage.js"
+import { Task } from "../models/task.js"
+import { TaskScheduler } from "../jobs/scheduler.js"
 
 export const taskRouter = Router()
 
 const storage = new FileStorage("data/tasks.json")
+const scheduler = new TaskScheduler()
 
 /*
 VALIDATION SCHEMA
 */
-
 const taskSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
@@ -69,6 +70,12 @@ taskRouter.post("/", async (req: Request, res: Response) => {
   tasks.push(newTask)
 
   await storage.saveNotes(tasks)
+
+  // ✅ schedule reminder job (after 1 minute)
+  await scheduler.scheduleReminder(
+    newTask.id,
+    new Date(Date.now() + 60000)
+  )
 
   res.status(201).json(newTask)
 })

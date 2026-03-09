@@ -4,41 +4,56 @@ import { AppConfig } from "./config.js"
 import { logger } from "./logger.js"
 import { taskRouter } from "./routes/tasks.js"
 import { authRouter } from "./routes/auth.js"
+import { MetricsCollector } from "./metrics.js"
 
 export class TaskServer {
 
   private app: Express
   private server?: Server
+  private metrics: MetricsCollector
 
   constructor(private config: AppConfig) {
     this.app = express()
+    this.metrics = new MetricsCollector()
     this.setupApp()
   }
 
   getApp() {
-  return this.app
-}
-
+    return this.app
+  }
 
   private setupApp(): void {
 
-    // JSON parser middleware
+    // JSON parser
     this.app.use(express.json())
-    this.app.use("/api/auth", authRouter)
-    this.app.use("/api/tasks", taskRouter)
 
-    // Request logger middleware
+    // Metrics middleware
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      this.metrics.recordRequest()
+      next()
+    })
+
+    // Request logger
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       logger.info(`${req.method} ${req.url}`)
       next()
     })
 
-    // Health check endpoint
+    // Routes
+    this.app.use("/api/auth", authRouter)
+    this.app.use("/api/tasks", taskRouter)
+
+    // Health endpoint
     this.app.get("/health", (req: Request, res: Response) => {
       res.json({
         status: "ok",
         timestamp: new Date().toISOString()
       })
+    })
+
+    // Metrics endpoint
+    this.app.get("/metrics", (req: Request, res: Response) => {
+      res.json(this.metrics.getMetrics())
     })
 
     // 404 handler
@@ -61,4 +76,5 @@ export class TaskServer {
       logger.info("Server stopped")
     }
   }
+
 }
