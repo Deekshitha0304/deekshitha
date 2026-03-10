@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# logs
+*.log
+
+# env files
+.env
+
+# build output
+dist/
+build/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# coverage
+coverage/
+
+# temp files
+tmp/
+temp/
