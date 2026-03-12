@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS categories (
+  id SERIAL PRIMARY KEY,
+  name TEXT UNIQUE NOT NULL
+);
+
+ALTER TABLE tasks
+ADD COLUMN category_id INTEGER REFERENCES categories(id);
