@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Email and password are required." }, { status: 400 })
   }
 
-  const user = getUserByEmail(email)
+  const user = await getUserByEmail(email)
   if (!user) {
     return Response.json({ error: "Invalid email or password." }, { status: 401 })
   }

@@ -1,4 +1,5 @@
-import { type TaskSnapshotRecord, getTaskDatabase, syncTasksToJson } from "./db"
+import prisma from "@/src/lib/prisma"
+import { ensureTaskSchema } from "./db"
 
 export interface TaskRecord {
   id: string
@@ -6,17 +7,6 @@ export interface TaskRecord {
   description: string
   year: number
   completed: boolean
-  priority: "low" | "medium" | "high"
-  createdAt: string
-  updatedAt: string
-}
-
-interface TaskRow {
-  id: string
-  title: string
-  description: string
-  year: number
-  completed: number
   priority: "low" | "medium" | "high"
   createdAt: string
   updatedAt: string
@@ -50,183 +40,171 @@ declare global {
 }
 
 function toTaskRecord(row: TaskRow): TaskRecord {
+  const priority =
+    row.priority === "low" || row.priority === "medium" || row.priority === "high"
+      ? row.priority
+      : "medium"
+
   return {
     id: row.id,
     title: row.title,
     description: row.description,
     year: row.year,
     completed: Boolean(row.completed),
-    priority: row.priority,
-    createdAt: row.createdAt,
-    updatedAt: row.updatedAt,
+    priority,
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
   }
 }
 
-function toTaskSnapshot(records: TaskRecord[]): TaskSnapshotRecord[] {
-  return records.map(task => ({ ...task }))
+interface TaskRow {
+  id: string
+  title: string
+  description: string
+  year: number
+  completed: boolean
+  priority: string
+  createdAt: Date
+  updatedAt: Date
 }
 
-function queryAllTasks(): TaskRecord[] {
-  const db = getTaskDatabase()
-  const rows = db
-    .prepare(
-      `
-      SELECT id, title, description, year, completed, priority, createdAt, updatedAt
-      FROM tasks
-      ORDER BY datetime(createdAt) ASC, rowid ASC
-      `
-    )
-    .all() as TaskRow[]
+async function queryAllTasks(): Promise<TaskRecord[]> {
+  const rows = (await prisma.task.findMany({
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }]
+  })) as TaskRow[]
 
-  return rows.map(toTaskRecord)
+  return rows.map((row) =>
+    toTaskRecord({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      year: row.year,
+      completed: row.completed,
+      priority: row.priority,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt
+    })
+  )
 }
 
-function syncMirrorFile() {
-  syncTasksToJson(toTaskSnapshot(queryAllTasks()))
-}
+async function ensureStoreInitialized() {
+  await ensureTaskSchema()
 
-function ensureStoreInitialized() {
   if (globalThis.__taskNotesStoreInitialized__) {
     return
   }
 
-  const db = getTaskDatabase()
-  const result = db.prepare("SELECT COUNT(*) as count FROM tasks").get() as { count: number }
+  const count = await prisma.task.count()
 
-  if (result.count === 0) {
-    const insertTask = db.prepare(`
-      INSERT INTO tasks (id, title, description, year, completed, priority, createdAt, updatedAt)
-      VALUES (@id, @title, @description, @year, @completed, @priority, @createdAt, @updatedAt)
-    `)
-
-    const insertInitialTasks = db.transaction((tasks: TaskRecord[]) => {
-      for (const task of tasks) {
-        insertTask.run({
+  if (count === 0) {
+    for (const task of INITIAL_TASKS) {
+      await prisma.task.create({
+        data: {
           id: task.id,
           title: task.title,
           description: task.description,
           year: task.year,
-          completed: task.completed ? 1 : 0,
+          completed: task.completed,
           priority: task.priority,
-          createdAt: task.createdAt,
-          updatedAt: task.updatedAt,
-        })
-      }
-    })
-
-    insertInitialTasks(INITIAL_TASKS)
+          createdAt: new Date(task.createdAt),
+          updatedAt: new Date(task.updatedAt)
+        }
+      })
+    }
   }
 
-  syncMirrorFile()
   globalThis.__taskNotesStoreInitialized__ = true
 }
 
-function getTaskStore(): TaskRecord[] {
-  ensureStoreInitialized()
+async function getTaskStore(): Promise<TaskRecord[]> {
+  await ensureStoreInitialized()
   return queryAllTasks()
 }
 
-export function getTasks(): TaskRecord[] {
+export async function getTasks(): Promise<TaskRecord[]> {
   return getTaskStore()
 }
 
-export function getTaskById(id: string): TaskRecord | null {
-  ensureStoreInitialized()
-  const db = getTaskDatabase()
-  const row = db
-    .prepare(
-      `
-      SELECT id, title, description, year, completed, priority, createdAt, updatedAt
-      FROM tasks
-      WHERE id = ?
-      `
-    )
-    .get(id) as TaskRow | undefined
+export async function getTaskById(id: string): Promise<TaskRecord | null> {
+  await ensureStoreInitialized()
+  const row = await prisma.task.findUnique({ where: { id } })
 
-  return row ? toTaskRecord(row) : null
-}
-
-export function addTask(task: TaskRecord): TaskRecord {
-  ensureStoreInitialized()
-  const db = getTaskDatabase()
-  db.prepare(
-    `
-    INSERT INTO tasks (id, title, description, year, completed, priority, createdAt, updatedAt)
-    VALUES (@id, @title, @description, @year, @completed, @priority, @createdAt, @updatedAt)
-    `
-  ).run({
-    id: task.id,
-    title: task.title,
-    description: task.description,
-    year: task.year,
-    completed: task.completed ? 1 : 0,
-    priority: task.priority,
-    createdAt: task.createdAt,
-    updatedAt: task.updatedAt,
-  })
-
-  syncMirrorFile()
-  return task
-}
-
-export function updateTaskInStore(id: string, updatedTask: TaskRecord): TaskRecord | null {
-  ensureStoreInitialized()
-  const db = getTaskDatabase()
-  const result = db
-    .prepare(
-      `
-      UPDATE tasks
-      SET title = @title,
-          description = @description,
-          year = @year,
-          completed = @completed,
-          priority = @priority,
-          createdAt = @createdAt,
-          updatedAt = @updatedAt
-      WHERE id = @id
-      `
-    )
-    .run({
-      id,
-      title: updatedTask.title,
-      description: updatedTask.description,
-      year: updatedTask.year,
-      completed: updatedTask.completed ? 1 : 0,
-      priority: updatedTask.priority,
-      createdAt: updatedTask.createdAt,
-      updatedAt: updatedTask.updatedAt,
-    })
-
-  if (result.changes === 0) {
+  if (!row) {
     return null
   }
 
-  syncMirrorFile()
+  return toTaskRecord({
+    id: row.id,
+    title: row.title,
+    description: row.description,
+    year: row.year,
+    completed: row.completed,
+    priority: row.priority,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt
+  })
+}
+
+export async function addTask(task: TaskRecord): Promise<TaskRecord> {
+  await ensureStoreInitialized()
+  await prisma.task.create({
+    data: {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      year: task.year,
+      completed: task.completed,
+      priority: task.priority,
+      createdAt: new Date(task.createdAt),
+      updatedAt: new Date(task.updatedAt)
+    }
+  })
+
+  return task
+}
+
+export async function updateTaskInStore(
+  id: string,
+  updatedTask: TaskRecord
+): Promise<TaskRecord | null> {
+  await ensureStoreInitialized()
+  const existing = await prisma.task.findUnique({ where: { id }, select: { id: true } })
+  if (!existing) {
+    return null
+  }
+
+  await prisma.task.update({
+    where: { id },
+    data: {
+      title: updatedTask.title,
+      description: updatedTask.description,
+      year: updatedTask.year,
+      completed: updatedTask.completed,
+      priority: updatedTask.priority,
+      createdAt: new Date(updatedTask.createdAt),
+      updatedAt: new Date(updatedTask.updatedAt)
+    }
+  })
+
   return updatedTask
 }
 
-export function removeTaskById(id: string): boolean {
-  ensureStoreInitialized()
-  const db = getTaskDatabase()
-  const result = db.prepare("DELETE FROM tasks WHERE id = ?").run(id)
-
-  if (result.changes === 0) {
+export async function removeTaskById(id: string): Promise<boolean> {
+  await ensureStoreInitialized()
+  const result = await prisma.task.deleteMany({ where: { id } })
+  if (result.count === 0) {
     return false
   }
 
-  syncMirrorFile()
   return true
 }
 
-export function removeTaskByTitle(title: string): boolean {
-  ensureStoreInitialized()
-  const db = getTaskDatabase()
-  const result = db.prepare("DELETE FROM tasks WHERE title = ?").run(title)
-
-  if (result.changes === 0) {
+export async function removeTaskByTitle(title: string): Promise<boolean> {
+  await ensureStoreInitialized()
+  const result = await prisma.task.deleteMany({ where: { title } })
+  if (result.count === 0) {
     return false
   }
 
-  syncMirrorFile()
   return true
 }

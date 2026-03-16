@@ -11,7 +11,7 @@ export async function GET(
   }
 
   const { id } = await params
-  const task = getTaskById(id)
+  const task = await getTaskById(id)
 
   if (!task) {
     return Response.json({ error: "Task not found" }, { status: 404 })
@@ -31,7 +31,7 @@ export async function PATCH(
 
   const { id } = await params
   const payload = (await request.json().catch(() => ({}))) as Partial<TaskRecord>
-  const existingTask = getTaskById(id)
+  const existingTask = await getTaskById(id)
 
   if (!existingTask) {
     return Response.json({ error: "Task not found" }, { status: 404 })
@@ -55,7 +55,7 @@ export async function PATCH(
     updatedAt: now,
   }
 
-  updateTaskInStore(id, updatedTask)
+  await updateTaskInStore(id, updatedTask)
 
   return Response.json(updatedTask)
 }
@@ -71,7 +71,7 @@ export async function DELETE(
 
   const { id } = await params
 
-  if (!removeTaskById(id)) {
+  if (!(await removeTaskById(id))) {
     return Response.json({ error: "Task not found" }, { status: 404 })
   }
 

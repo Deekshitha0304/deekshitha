@@ -21,13 +21,13 @@ export async function POST(request: Request) {
     return Response.json({ error: "Password must be at least 6 characters." }, { status: 400 })
   }
 
-  const existingUser = getUserByEmail(email)
+  const existingUser = await getUserByEmail(email)
   if (existingUser) {
     return Response.json({ error: "An account with this email already exists." }, { status: 409 })
   }
 
   const passwordHash = await bcrypt.hash(password, 10)
-  const user = createUser(email, passwordHash)
+  const user = await createUser(email, passwordHash)
 
   return Response.json(
     {

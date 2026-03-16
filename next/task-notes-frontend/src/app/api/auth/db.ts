@@ -1,6 +1,4 @@
-import fs from "node:fs"
-import path from "node:path"
-import Database from "better-sqlite3"
+import prisma from "@/src/lib/prisma"
 
 export interface UserRecord {
   id: string
@@ -10,82 +8,51 @@ export interface UserRecord {
   updatedAt: string
 }
 
-function resolveDataDir() {
-  // Vercel's deployment filesystem is read-only. /tmp is writable at runtime.
-  if (process.env.VERCEL) {
-    return path.join("/tmp", "task-notes-frontend-data")
-  }
-
-  return path.join(process.cwd(), "data")
-}
-
-const DATA_DIR = resolveDataDir()
-const AUTH_DB_PATH = path.join(DATA_DIR, "auth.db")
-
 declare global {
-  var __taskNotesAuthDb__: Database.Database | undefined
+  var __taskNotesAuthSchemaReady__: boolean | undefined
 }
 
-function ensureDataDirectory() {
-  fs.mkdirSync(DATA_DIR, { recursive: true })
+async function ensureSchema() {
+  // Schema is managed by Prisma migrations/db push.
+  globalThis.__taskNotesAuthSchemaReady__ = true
 }
 
-function initializeSchema(db: Database.Database) {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
-      email TEXT NOT NULL UNIQUE,
-      passwordHash TEXT NOT NULL,
-      createdAt TEXT NOT NULL,
-      updatedAt TEXT NOT NULL
-    );
-  `)
-}
-
-export function getAuthDatabase(): Database.Database {
-  if (!globalThis.__taskNotesAuthDb__) {
-    ensureDataDirectory()
-    const db = new Database(AUTH_DB_PATH)
-    db.pragma("journal_mode = WAL")
-    initializeSchema(db)
-    globalThis.__taskNotesAuthDb__ = db
+export async function getUserByEmail(email: string): Promise<UserRecord | null> {
+  await ensureSchema()
+  const row = await prisma.user.findUnique({
+    where: { email }
+  })
+  if (!row) {
+    return null
   }
 
-  return globalThis.__taskNotesAuthDb__
+  return {
+    id: row.id,
+    email: row.email,
+    passwordHash: row.passwordHash,
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString()
+  }
 }
 
-export function getUserByEmail(email: string): UserRecord | null {
-  const db = getAuthDatabase()
-  const row = db
-    .prepare(
-      `
-      SELECT id, email, passwordHash, createdAt, updatedAt
-      FROM users
-      WHERE email = ?
-      `
-    )
-    .get(email) as UserRecord | undefined
-
-  return row ?? null
-}
-
-export function createUser(email: string, passwordHash: string): UserRecord {
-  const db = getAuthDatabase()
+export async function createUser(email: string, passwordHash: string): Promise<UserRecord> {
+  await ensureSchema()
   const now = new Date().toISOString()
-  const user: UserRecord = {
-    id: crypto.randomUUID(),
-    email,
-    passwordHash,
-    createdAt: now,
-    updatedAt: now
+  const created = await prisma.user.create({
+    data: {
+      id: crypto.randomUUID(),
+      email,
+      passwordHash,
+      createdAt: new Date(now),
+      updatedAt: new Date(now)
+    }
+  })
+
+  return {
+    id: created.id,
+    email: created.email,
+    passwordHash: created.passwordHash,
+    createdAt: created.createdAt.toISOString(),
+    updatedAt: created.updatedAt.toISOString()
   }
-
-  db.prepare(
-    `
-    INSERT INTO users (id, email, passwordHash, createdAt, updatedAt)
-    VALUES (@id, @email, @passwordHash, @createdAt, @updatedAt)
-    `
-  ).run(user)
-
-  return user
 }

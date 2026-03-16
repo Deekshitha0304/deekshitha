@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Please log in first to view tasks." }, { status: 401 })
   }
 
-  return Response.json(getTasks())
+  return Response.json(await getTasks())
 }
 
 export async function POST(request: Request) {
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     updatedAt: now,
   }
 
-  return Response.json(addTask(newTask), { status: 201 })
+  return Response.json(await addTask(newTask), { status: 201 })
 }
 
 export async function DELETE(request: Request) {
@@ -78,7 +78,7 @@ export async function DELETE(request: Request) {
     return Response.json({ error: "Task title is required" }, { status: 400 })
   }
 
-  removeTaskByTitle(title)
+  await removeTaskByTitle(title)
 
   return Response.json({ success: true })
 }
