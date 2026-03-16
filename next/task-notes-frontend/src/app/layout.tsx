@@ -160,7 +160,13 @@
 
 import "./globals.css"
 import Link from "next/link"
-import { Inter } from "next/font/google"
+import { Inter, Geist } from "next/font/google"
+import { cn } from "@/src/lib/utils"
+import ThemeToggle from "@/src/components/ThemeToggle"
+import { AuthProvider } from "@/contexts/AuthContext"
+import AuthNav from "@/src/components/AuthNav"
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -175,60 +181,67 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen bg-slate-50 text-slate-900 antialiased`}>
+    <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}
+      >
+        <AuthProvider>
+          {/* HEADER */}
 
-        {/* HEADER */}
+          <header className="sticky top-0 z-50 border-b border-border bg-card/95 text-card-foreground shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/85">
 
-        <header className="sticky top-0 z-50 border-b border-slate-800/30 bg-slate-900 text-white shadow-sm">
+            <nav className="flex h-14 w-full items-center justify-between px-4 sm:px-6">
 
-          <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:px-6">
-
-            <h1 className="text-lg font-semibold tracking-tight sm:text-xl">
+            <h1 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
               Task Notes
             </h1>
 
-            <div className="flex items-center gap-1 sm:gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
 
               <Link
                 href="/"
-                className="rounded-md px-3 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800/70 hover:text-white"
+                className="rounded-md border border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-border hover:bg-accent hover:text-accent-foreground"
               >
                 Home
               </Link>
 
               <Link
                 href="/tasks"
-                className="rounded-md px-3 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800/70 hover:text-white"
+                className="rounded-md border border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-border hover:bg-accent hover:text-accent-foreground"
               >
                 Tasks
               </Link>
 
               <Link
                 href="/about"
-                className="rounded-md px-3 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800/70 hover:text-white"
+                className="rounded-md border border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-border hover:bg-accent hover:text-accent-foreground"
               >
                 About
               </Link>
 
-            </div>
+                <AuthNav />
 
-          </nav>
+                <ThemeToggle />
 
-        </header>
+              </div>
 
-        {/* PAGE CONTENT */}
+            </nav>
 
-        <main className="mx-auto min-h-[calc(100vh-7rem)] w-full max-w-5xl px-4 py-8 sm:px-6">
-          {children}
-        </main>
+          </header>
 
-        {/* FOOTER */}
+          {/* PAGE CONTENT */}
 
-        <footer className="border-t border-slate-200 bg-white px-4 py-4 text-center text-sm text-slate-600">
-          <p>© 2024 Task Notes App</p>
-        </footer>
+          <main className="animate-page-in min-h-[calc(100vh-7rem)] w-full px-4 py-8 sm:px-6">
+            {children}
+          </main>
 
+          {/* FOOTER */}
+
+          <footer className="border-t border-border bg-card px-4 py-4 text-center text-sm text-muted-foreground">
+            <p>© 2024 Task Notes App</p>
+          </footer>
+        </AuthProvider>
       </body>
     </html>
   )

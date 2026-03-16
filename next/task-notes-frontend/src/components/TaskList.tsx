@@ -57,8 +57,10 @@
 //   )
 // }
 
+"use client"
 
-import TaskCard from "./TaskCard"
+import { AnimatePresence } from "framer-motion"
+import AnimatedTaskCard from "./AnimatedTaskCard"
 
 interface Task {
   id: string
@@ -80,19 +82,22 @@ export default function TaskList({
   toggleCompletion
 }: TaskListProps) {
   return (
-    <div className="mt-6 space-y-3">
-      {tasks.map(task => (
-        <TaskCard
-          key={task.id}
-          taskId={task.id}
-          title={task.title}
-          description={task.description}
-          year={task.year}
-          completed={task.completed}
-          deleteTask={deleteTask}
-          toggleCompletion={toggleCompletion}
-        />
-      ))}
+    <div className="grid gap-4">
+      <AnimatePresence mode="popLayout">
+        {tasks.map((task, index) => (
+          <AnimatedTaskCard
+            key={task.id}
+            index={index}
+            taskId={task.id}
+            title={task.title}
+            description={task.description}
+            year={task.year}
+            completed={task.completed}
+            deleteTask={deleteTask}
+            toggleCompletion={toggleCompletion}
+          />
+        ))}
+      </AnimatePresence>
     </div>
   )
 }

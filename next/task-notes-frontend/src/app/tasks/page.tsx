@@ -212,280 +212,49 @@
 //   )
 // }
 
-"use client"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
+import type { ApiError, Task } from "../../../lib/api"
+import { apiClient } from "../../../lib/api-client"
+import TasksRefreshOnArrival from "@/src/components/TasksRefreshOnArrival"
+import ProtectedAddTaskButton from "@/components/protected-add-task-button"
+import { TasksInteractiveList } from "@/components/tasks-interactive-list"
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
 
-import { useState, useEffect } from "react"
-import TaskList from "../../components/TaskList"
-import Counter from "../../components/Counter"
-import TaskForm from "../../components/TaskForm"
-import LoadingSpinner from "../../components/LoadingSpinner"
-import Modal from "../../components/Modal"
+export default async function HomePage() {
+  const cookieStore = await cookies()
+  const isAuthenticated = Boolean(cookieStore.get("auth-token")?.value)
+  let tasks: Task[] = []
 
-interface Task {
-  id: string
-  title: string
-  description: string
-  year: number
-  completed: boolean
-}
-
-type StoredTask = Omit<Task, "id"> & { id?: string }
-
-function withTaskIds(taskList: StoredTask[]): Task[] {
-  return taskList.map((task, index) => ({
-    ...task,
-    id: task.id ?? (Date.now() + index).toString()
-  }))
-}
-
-export default function HomePage() {
-
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  const [search, setSearch] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [successMessage, setSuccessMessage] = useState<string | null>(null)
-
-  useEffect(() => {
-
-    const loadTasks = async () => {
-
-      try {
-
-        const savedTasks = localStorage.getItem("tasks")
-        if (savedTasks) {
-          try {
-            const parsed = JSON.parse(savedTasks)
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setTasks(withTaskIds(parsed as StoredTask[]))
-              setLoading(false)
-              return
-            }
-          } catch {
-            // If stored data is invalid, ignore it and fetch from API.
-          }
-        }
-
-        setLoading(true)
-
-        const response = await fetch("/api/tasks")
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch tasks")
-        }
-
-        const data = await response.json()
-
-        if (Array.isArray(data)) {
-          setTasks(withTaskIds(data as StoredTask[]))
-        }
-
-      } catch (err) {
-
-        setError(err instanceof Error ? err.message : "Unknown error")
-
-      } finally {
-
-        setLoading(false)
-
-      }
-
+  try {
+    tasks = await apiClient.getTasks()
+  } catch (error) {
+    if ((error as ApiError | undefined)?.status === 401) {
+      redirect("/login")
     }
 
-    loadTasks()
-
-  }, [])
-
-  useEffect(() => {
-
-    const savedTasks = localStorage.getItem("tasks")
-
-    if (savedTasks) {
-      try {
-        const parsed = JSON.parse(savedTasks)
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setTasks(withTaskIds(parsed as StoredTask[]))
-        }
-      } catch {
-        // If stored data is invalid, ignore it.
-      }
-    }
-
-  }, [])
-
-  useEffect(() => {
-
-    localStorage.setItem("tasks", JSON.stringify(tasks))
-
-  }, [tasks])
-
-
-
-  function addTask(title: string, description: string, year: number) {
-
-    const newTask: Task = {
-      id: Date.now().toString(),
-      title,
-      description,
-      year,
-      completed: false
-    }
-
-    setTasks([...tasks, newTask])
-
-    setIsModalOpen(false)
-    setSuccessMessage("✔ Task created successfully")
-    window.setTimeout(() => setSuccessMessage(null), 2500)
-
+    throw error
   }
-
-
-
-  function deleteTask(title: string) {
-
-    if (confirm("Delete this task?")) {
-      setTasks(tasks.filter(task => task.title !== title))
-    }
-
-  }
-
-
-
-  function toggleCompletion(title: string) {
-
-    const updatedTasks = tasks.map(task =>
-      task.title === title
-        ? { ...task, completed: !task.completed }
-        : task
-    )
-
-    setTasks(updatedTasks)
-
-  }
-
-
-
-  const filteredTasks = tasks
-    .filter(task =>
-      task.title.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter(task => {
-
-      if (statusFilter === "completed") return task.completed
-
-      if (statusFilter === "pending") return !task.completed
-
-      return true
-
-    })
-
-
-
-  if (loading) return <LoadingSpinner />
-
-  if (error) {
-    return (
-      <div className="mx-auto max-w-3xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-        <span className="font-medium">Error:</span> {error}
-      </div>
-    )
-  }
-
-
 
   return (
+    <main className="animate-page-in w-full p-8">
+      <TasksRefreshOnArrival />
+      <Card className="interactive-lift">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <CardTitle className="text-2xl sm:text-3xl">Tasks</CardTitle>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Create tasks, search quickly, and mark them as completed.
+            </p>
+          </div>
 
-    <main className="mx-auto max-w-5xl">
+          <ProtectedAddTaskButton initialAuthenticated={isAuthenticated} />
+        </CardHeader>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
-            Tasks
-          </h2>
-          <p className="mt-1 text-sm text-slate-600">
-            Create tasks, search quickly, and mark them as completed.
-          </p>
-        </div>
-
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-        >
-          Add Task
-        </button>
-      </div>
-
-      {successMessage && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800"
-        >
-          {successMessage}
-        </div>
-      )}
-
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex-1">
-          <label className="sr-only" htmlFor="task-search">
-            Search tasks
-          </label>
-          <input
-            id="task-search"
-            placeholder="Search task..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="w-full rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
-          />
-        </div>
-
-        <div className="sm:w-56">
-          <label className="sr-only" htmlFor="task-filter">
-            Filter tasks
-          </label>
-          <select
-            id="task-filter"
-            value={statusFilter}
-            onChange={e => setStatusFilter(e.target.value)}
-            className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
-          >
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="pending">Pending</option>
-          </select>
-        </div>
-      </div>
-
-
-
-      <TaskList
-        tasks={filteredTasks}
-        deleteTask={deleteTask}
-        toggleCompletion={toggleCompletion}
-      />
-
-
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      >
-        <TaskForm addTask={addTask} />
-      </Modal>
-
-
-
-      <Counter />
-
-      </div>
-
+        <CardContent>
+          <TasksInteractiveList tasks={tasks} initialAuthenticated={isAuthenticated} />
+        </CardContent>
+      </Card>
     </main>
-
   )
 }
