@@ -72,6 +72,9 @@
 
 import { useState } from "react"
 import type { SubmitEvent } from "react"
+import { cn } from "@/src/lib/utils"
+import { Input } from "./ui/input"
+import { Label } from "./ui/label"
 
 interface TaskFormProps {
   addTask: (title: string, description: string, year: number) => void
@@ -81,11 +84,36 @@ export default function TaskForm({ addTask }: TaskFormProps) {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [year, setYear] = useState("")
+  const [formError, setFormError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState({
+    title: false,
+    description: false,
+    year: false
+  })
 
   function handleSubmit(e: SubmitEvent) {
     e.preventDefault()
 
-    addTask(title, description, Number(year))
+    const trimmedTitle = title.trim()
+    const trimmedDescription = description.trim()
+    const parsedYear = Number(year)
+
+    const nextFieldErrors = {
+      title: trimmedTitle.length === 0,
+      description: trimmedDescription.length === 0,
+      year: !Number.isFinite(parsedYear) || parsedYear <= 0
+    }
+
+    if (nextFieldErrors.title || nextFieldErrors.description || nextFieldErrors.year) {
+      setFieldErrors(nextFieldErrors)
+      setFormError("Invalid details. Please fill in all required fields.")
+      return
+    }
+
+    setFieldErrors({ title: false, description: false, year: false })
+    setFormError(null)
+
+    addTask(trimmedTitle, trimmedDescription, parsedYear)
 
     setTitle("")
     setDescription("")
@@ -95,44 +123,85 @@ export default function TaskForm({ addTask }: TaskFormProps) {
   return (
     <form id="create-task-form" onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-1.5">
-        <label htmlFor="task-title" className="text-sm font-medium text-slate-800">
+        <Label htmlFor="task-title">
           Title
-        </label>
-        <input
+        </Label>
+        <Input
           id="task-title"
           placeholder="e.g. Finish homework"
           value={title}
-          onChange={e => setTitle(e.target.value)}
-          className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          onChange={e => {
+            const value = e.target.value
+            setTitle(value)
+            if (fieldErrors.title && value.trim().length > 0) {
+              setFieldErrors(prev => ({ ...prev, title: false }))
+            }
+            if (formError && value.trim().length > 0) {
+              setFormError(null)
+            }
+          }}
+          className={cn(fieldErrors.title && "border-destructive focus-visible:ring-destructive/40")}
         />
+        {fieldErrors.title && (
+          <p className="text-xs text-destructive">Title is required.</p>
+        )}
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="task-description" className="text-sm font-medium text-slate-800">
+        <Label htmlFor="task-description">
           Description
-        </label>
-        <input
+        </Label>
+        <Input
           id="task-description"
           placeholder="Add a short description"
           value={description}
-          onChange={e => setDescription(e.target.value)}
-          className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          onChange={e => {
+            const value = e.target.value
+            setDescription(value)
+            if (fieldErrors.description && value.trim().length > 0) {
+              setFieldErrors(prev => ({ ...prev, description: false }))
+            }
+            if (formError && value.trim().length > 0) {
+              setFormError(null)
+            }
+          }}
+          className={cn(fieldErrors.description && "border-destructive focus-visible:ring-destructive/40")}
         />
+        {fieldErrors.description && (
+          <p className="text-xs text-destructive">Description is required.</p>
+        )}
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="task-year" className="text-sm font-medium text-slate-800">
+        <Label htmlFor="task-year">
           Year
-        </label>
-        <input
+        </Label>
+        <Input
           id="task-year"
           placeholder="2026"
           type="number"
           value={year}
-          onChange={e => setYear(e.target.value)}
-          className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-200"
+          onChange={e => {
+            const value = e.target.value
+            setYear(value)
+            const parsedYear = Number(value)
+            if (fieldErrors.year && Number.isFinite(parsedYear) && parsedYear > 0) {
+              setFieldErrors(prev => ({ ...prev, year: false }))
+            }
+            if (formError && Number.isFinite(parsedYear) && parsedYear > 0) {
+              setFormError(null)
+            }
+          }}
+          className={cn(fieldErrors.year && "border-destructive focus-visible:ring-destructive/40")}
         />
+        {fieldErrors.year && (
+          <p className="text-xs text-destructive">Year is required and must be valid.</p>
+        )}
       </div>
+
+      {formError && (
+        <p className="text-sm font-medium text-destructive">{formError}</p>
+      )}
     </form>
   )
 }

@@ -14,12 +14,12 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-lg">
-        <div className="border-b border-slate-200 px-5 py-4">
-          <h3 className="text-lg font-semibold tracking-tight text-slate-900">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-card text-card-foreground shadow-lg">
+        <div className="border-b border-border px-5 py-4">
+          <h3 className="text-lg font-semibold tracking-tight text-foreground">
             Create Task
           </h3>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-muted-foreground">
             Fill in the details below.
           </p>
         </div>
@@ -28,11 +28,11 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
           {children}
         </div>
 
-        <div className="flex items-center justify-end gap-2 border-t border-slate-200 px-5 py-4">
+        <div className="flex items-center justify-end gap-2 border-t border-border px-5 py-4">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-md bg-slate-200 px-4 py-2 text-sm font-medium text-slate-800 shadow-sm transition-colors hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Cancel
           </button>

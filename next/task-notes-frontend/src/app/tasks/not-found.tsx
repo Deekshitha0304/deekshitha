@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="w-full">
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
           Task not found
