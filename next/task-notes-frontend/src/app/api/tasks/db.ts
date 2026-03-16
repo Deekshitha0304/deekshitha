@@ -13,7 +13,16 @@ export interface TaskSnapshotRecord {
   updatedAt: string
 }
 
-const DATA_DIR = path.join(process.cwd(), "data")
+function resolveDataDir() {
+  // Vercel's deployment filesystem is read-only. /tmp is writable at runtime.
+  if (process.env.VERCEL) {
+    return path.join("/tmp", "task-notes-frontend-data")
+  }
+
+  return path.join(process.cwd(), "data")
+}
+
+const DATA_DIR = resolveDataDir()
 const TASKS_DB_PATH = path.join(DATA_DIR, "tasks.db")
 const TASKS_JSON_PATH = path.join(DATA_DIR, "tasks.json")
 
