@@ -12,29 +12,6 @@ export interface TaskRecord {
   updatedAt: string
 }
 
-const INITIAL_TASKS: TaskRecord[] = [
-  {
-    id: "1",
-    title: "Learn Next.js Routing",
-    description: "Understand file-based routing",
-    year: 2024,
-    completed: false,
-    priority: "medium",
-    createdAt: "2026-03-10T09:00:00.000Z",
-    updatedAt: "2026-03-12T11:30:00.000Z",
-  },
-  {
-    id: "2",
-    title: "Build Task UI",
-    description: "Create components and forms",
-    year: 2024,
-    completed: true,
-    priority: "high",
-    createdAt: "2026-03-08T14:15:00.000Z",
-    updatedAt: "2026-03-13T08:45:00.000Z",
-  },
-]
-
 declare global {
   var __taskNotesStoreInitialized__: boolean | undefined
 }
@@ -92,25 +69,6 @@ async function ensureStoreInitialized() {
 
   if (globalThis.__taskNotesStoreInitialized__) {
     return
-  }
-
-  const count = await prisma.task.count()
-
-  if (count === 0) {
-    for (const task of INITIAL_TASKS) {
-      await prisma.task.create({
-        data: {
-          id: task.id,
-          title: task.title,
-          description: task.description,
-          year: task.year,
-          completed: task.completed,
-          priority: task.priority,
-          createdAt: new Date(task.createdAt),
-          updatedAt: new Date(task.updatedAt)
-        }
-      })
-    }
   }
 
   globalThis.__taskNotesStoreInitialized__ = true

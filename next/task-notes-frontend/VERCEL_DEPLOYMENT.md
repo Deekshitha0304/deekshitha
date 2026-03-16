@@ -30,6 +30,7 @@ This project uses managed Postgres on Neon via Prisma (`@prisma/client`).
 3. Add environment variables from section 2.
 4. Deploy.
 5. After first deploy, run `npm run prisma:push` once with production `DATABASE_URL` to create/update tables.
+6. Seed initial task data once with `npm run db:seed`.
 
 ## 5) Post-Deploy Validation
 

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs"
 import { getUserByEmail } from "../db"
 import { signAuthToken } from "../token"
+import { NextResponse } from "next/server"
 
 export const runtime = "nodejs"
 
@@ -29,12 +30,29 @@ export async function POST(request: Request) {
   }
 
   const token = signAuthToken({ sub: user.id, email: user.email })
-
-  return Response.json({
+  const response = NextResponse.json({
     token,
     user: {
       id: user.id,
       email: user.email
     }
   })
+
+  response.cookies.set("auth-token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7
+  })
+
+  response.cookies.set("user", JSON.stringify({ id: user.id, email: user.email }), {
+    httpOnly: false,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7
+  })
+
+  return response
 }
