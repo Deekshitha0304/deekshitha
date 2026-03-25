@@ -1,0 +1,17 @@
+### Home Page (HTML)
+GET http://localhost:3001/
+
+### CSS
+GET http://localhost:3001/style.css
+
+### JS
+GET http://localhost:3001/app.js
+
+### API
+GET http://localhost:3001/api/ping
+
+### Redirect
+GET http://localhost:3001/old-home
+
+### Not Found
+GET http://localhost:3001/does-not-exist

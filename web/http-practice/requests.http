@@ -1,0 +1,19 @@
+### Health
+GET http://localhost:3003/health
+
+### User exists
+GET http://localhost:3003/users/1
+
+### User not found
+GET http://localhost:3003/users/999
+
+### Echo POST
+POST http://localhost:3003/echo
+Content-Type: application/json
+
+{
+  "name": "Harleen"
+}
+
+### Set Cookie
+GET http://localhost:3003/set-theme-cookie

@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Foundations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Merriweather:wght@400;700;900&family=Source+Code+Pro:wght@400;600;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="layout" id="page-top">
+      <header>
+        <div class="topbar">
+          <p class="brand">
+            <svg
+              class="icon-svg brand__logo"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 5.5C4 4.67157 4.67157 4 5.5 4H10C11.1046 4 12 4.89543 12 6V19.5C12 18.6716 11.3284 18 10.5 18H5.5C4.67157 18 4 18.6716 4 19.5V5.5Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M20 5.5C20 4.67157 19.3284 4 18.5 4H14C12.8954 4 12 4.89543 12 6V19.5C12 18.6716 12.6716 18 13.5 18H18.5C19.3284 18 20 18.6716 20 19.5V5.5Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>UI Assignment</span>
+          </p>
+          <button
+            id="sidebar-toggle"
+            class="nav-toggle-btn sidebar-toggle"
+            type="button"
+            aria-label="Toggle sidebar navigation"
+            aria-controls="sidebar-nav"
+            aria-expanded="false"
+          >
+            ☰
+          </button>
+          <nav class="top-nav-group" aria-label="Top labels">
+            <button
+              id="top-nav-toggle"
+              class="nav-toggle-btn top-nav-toggle"
+              type="button"
+              aria-label="Toggle top navigation"
+              aria-controls="top-nav-links"
+              aria-expanded="false"
+            >
+              ☰
+            </button>
+            <ul id="top-nav-links" class="top-nav-links">
+              <li>
+                <a href="#hero">
+                  <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">home</span>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li>
+                <a href="#references">
+                  <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">search</span>
+                  <span>Search</span>
+                </a>
+              </li>
+              <li>
+                <a href="#typography">
+                  <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">settings</span>
+                  <span>Settings</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <button id="theme-toggle" type="button" aria-label="Enable dark theme">
+            <span aria-hidden="true">🌙</span>
+          </button>
+        </div>
+      </header>
+      <nav id="sidebar-nav" aria-label="Section navigation">
+        <ul class="side-nav">
+          <li>
+            <a href="#hero">
+              <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">home</span>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#story">
+              <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">article</span>
+              Story
+            </a>
+          </li>
+          <li>
+            <a href="#references">
+              <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">search</span>
+              References
+            </a>
+          </li>
+          <li>
+            <a href="#comparison">
+              <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">table_view</span>
+              Comparison
+            </a>
+          </li>
+          <li>
+            <a href="#typography">
+              <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">tune</span>
+              Typography
+            </a>
+          </li>
+          <li>
+            <a href="#palette">
+              <span class="material-symbols-outlined icon icon--nav" aria-hidden="true">palette</span>
+              Color Palette
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <main>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="#page-top">Home</a>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <a href="#story">Articles</a>
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <span aria-current="page">UI Page</span>
+        </nav>
+        <section id="hero" class="section hero" aria-labelledby="hero-heading">
+          <div class="hero__inner card card--elevated">
+            <h1 id="hero-heading">Simple UI Page Using HTML and CSS</h1>
+            <p>
+              This page is a basic practice project for layout, typography, and
+              responsive design.
+            </p>
+            <a class="hero-cta" href="#story">Start Reading</a>
+          </div>
+        </section>
+
+        <div class="main-content">
+          <section id="icon-gallery" class="section content-section" aria-labelledby="icon-gallery-heading">
+            <h2 id="icon-gallery-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">apps</span>
+              Icon Implementation Options
+            </h2>
+            <p>
+              This grid combines Material Symbols and one inline Heroicons SVG with shared sizing and hover behavior.
+            </p>
+            <div class="icon-grid" role="list" aria-label="Icon implementation examples">
+              <article class="icon-tile card card--outlined" role="listitem">
+                <span class="material-symbols-outlined icon-swatch" aria-hidden="true">home</span>
+                <p>Home icon</p>
+              </article>
+              <article class="icon-tile card card--outlined" role="listitem">
+                <span class="material-symbols-outlined icon-swatch" aria-hidden="true">search</span>
+                <p>Search icon</p>
+              </article>
+              <article class="icon-tile card card--outlined" role="listitem">
+                <span class="material-symbols-outlined icon-swatch" aria-hidden="true">settings</span>
+                <p>Settings icon</p>
+              </article>
+              <article class="icon-tile card card--outlined" role="listitem">
+                <svg
+                  class="icon-swatch icon-svg icon-hero"
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.75 12h16.5m-8.25-8.25L20.25 12 12 20.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <p>Heroicons arrow</p>
+              </article>
+              <article class="icon-tile card card--outlined" role="listitem">
+                <span class="material-symbols-outlined icon-swatch" aria-hidden="true">download</span>
+                <p>Download icon</p>
+              </article>
+              <article class="icon-tile card card--outlined" role="listitem">
+                <span class="material-symbols-outlined icon-swatch" aria-hidden="true">upload</span>
+                <p>Upload icon</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="feature-grid" class="section content-section" aria-labelledby="feature-grid-heading">
+            <h2 id="feature-grid-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">grid_view</span>
+              Feature Grid
+            </h2>
+            <p>
+              A reusable feature layout combining spacing tokens and card variants.
+            </p>
+            <div class="feature-grid">
+              <article class="card card--elevated">
+                <h3>Fast to scan</h3>
+                <p>Cards keep spacing and hierarchy consistent for quick reading.</p>
+              </article>
+              <article class="card card--outlined">
+                <h3>Reusable</h3>
+                <p>Variants adapt the same base pattern to multiple contexts.</p>
+              </article>
+              <article class="card card--compact">
+                <h3>Compact mode</h3>
+                <p>Useful for dense lists and utility sections.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="card-patterns" class="section content-section card card--outlined" aria-labelledby="card-patterns-heading">
+            <h2 id="card-patterns-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">view_module</span>
+              Reusable Card Patterns
+            </h2>
+            <p>
+              Cards below intentionally use mixed content lengths to validate alignment and resilience.
+            </p>
+            <div class="card-grid">
+              <article class="card card--elevated">
+                <h3>Short card</h3>
+                <p>One concise line.</p>
+              </article>
+              <article class="card card--outlined">
+                <h3>Medium card</h3>
+                <p>
+                  This card has a medium amount of content to verify spacing,
+                  readable line length, and visual consistency.
+                </p>
+              </article>
+              <article class="card card--compact">
+                <h3>Compact utility</h3>
+                <p>Lower padding for denser UI modules.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="dashboard-layout" class="section content-section" aria-labelledby="dashboard-heading">
+            <h2 id="dashboard-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">dashboard</span>
+              Dashboard Layout Pattern
+            </h2>
+            <div class="dashboard-layout">
+              <aside class="dashboard-panel card card--outlined" aria-label="Dashboard shortcuts">
+                <h3>Quick Access</h3>
+                <a href="#comparison">View comparison table</a>
+                <a href="#typography">Open typography tools</a>
+                <a href="#palette">Check color palette</a>
+              </aside>
+              <div class="dashboard-main">
+                <article class="card card--elevated">
+                  <h3>Primary metric</h3>
+                  <p>24 active references in this sample view.</p>
+                </article>
+                <article class="card">
+                  <h3>Recent updates</h3>
+                  <p>Navigation and card systems are now responsive and reusable.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section id="magazine-layout" class="section content-section" aria-labelledby="magazine-heading">
+            <h2 id="magazine-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">newspaper</span>
+              Magazine Layout Pattern
+            </h2>
+            <div class="magazine-layout">
+              <article class="card card--elevated">
+                <h3>Lead Story</h3>
+                <p>
+                  This wider column acts as the primary story area, similar to editorial layouts
+                  that prioritize one key narrative with comfortable reading width.
+                </p>
+                <p>
+                  Mixed-width composition gives clear hierarchy and helps users identify the
+                  main story before scanning supporting content.
+                </p>
+              </article>
+              <div class="magazine-stack">
+                <article class="card card--compact">
+                  <h3>Side Story A</h3>
+                  <p>Short supporting article in a narrower column.</p>
+                </article>
+                <article class="card card--outlined">
+                  <h3>Side Story B</h3>
+                  <p>Another compact story block to complete the magazine pattern.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <article id="story" class="section content-section card card--elevated" aria-labelledby="article-heading">
+            <h2 id="article-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">home</span>
+              Building a Simple Reading Page
+            </h2>
+            <p>
+              The main goal of this page is to make content easy to read. I used
+              semantic HTML and simple CSS spacing rules to keep everything clear.
+            </p>
+            <p>
+              I also included different content types like lists, a table, media,
+              and one small interaction to practice UI basics in one place.
+            </p>
+            <blockquote>
+              Good UI should support the content instead of distracting from it.
+            </blockquote>
+            <figure class="article-media">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="
+                    images/photo-480.webp 480w,
+                    images/photo-800.webp 800w,
+                    images/photo-1200.webp 1200w
+                  "
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 68rem"
+                />
+                <img
+                  src="images/photo-1200.jpg"
+                  srcset="
+                    images/photo-480.jpg 480w,
+                    images/photo-800.jpg 800w,
+                    images/photo-1200.jpg 1200w
+                  "
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 68rem"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Responsive sample photo from Picsum"
+                />
+              </picture>
+              <figcaption>
+                Responsive photo using WebP with JPG fallback and explicit srcset sizes.
+              </figcaption>
+            </figure>
+          </article>
+
+          <section id="image-types" class="section content-section card card--outlined" aria-labelledby="image-types-heading">
+            <h2 id="image-types-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">imagesmode</span>
+              Image Formats and Optimization
+            </h2>
+            <p>
+              This section includes one JPG photo, one transparent PNG graphic, and one inline SVG vector logo.
+            </p>
+            <div class="media-format-grid">
+              <figure class="card card--compact">
+                <img
+                  src="images/photo-original.jpg"
+                  alt="Original JPG photo from Picsum (1200 by 800)"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>Original JPG source: picsum.photos/1200/800</figcaption>
+              </figure>
+              <figure class="card card--compact">
+                <img
+                  src="images/tick-transparent.png"
+                  alt="Transparent PNG icon example"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>Transparent PNG graphic sample</figcaption>
+              </figure>
+              <figure class="card card--compact">
+                <svg
+                  class="vector-logo"
+                  viewBox="0 0 48 48"
+                  role="img"
+                  aria-label="Vector logo sample"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="24" cy="24" r="20" />
+                  <path d="M14 26L21 33L34 16" />
+                </svg>
+                <figcaption>Inline SVG vector logo</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section id="references" class="section content-section card card--outlined" aria-labelledby="references-heading">
+            <h2 id="references-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">search</span>
+              Reference List
+            </h2>
+            <p>
+              This section lists a few cartoons and famous places as sample
+              reference content for the page.
+            </p>
+            <div class="references-layout">
+              <div class="references-list-column card">
+                <h3 id="movies-heading">Three Cartoons</h3>
+                <ol aria-labelledby="movies-heading" class="reference-list reference-list--numbered">
+                  <li
+                    class="reference-item is-selected"
+                    data-image-url="https://wallpapers.com/images/hd/fly-swatter-oggy-and-the-cockroaches-h4sxxn3xmkdqdz8m.jpg"
+                    data-image-alt="Oggy and the Cockroaches cartoon poster"
+                  >
+                    Oggy and the Cockroaches
+                    <span class="item-note">A fun cartoon about Oggy and three mischievous cockroaches.</span>
+                  </li>
+                  <li
+                    class="reference-item"
+                    data-image-url="https://wallpapercave.com/wp/wp6372486.jpg"
+                    data-image-alt="Tom and Jerry cartoon scene"
+                  >
+                    Tom and Jerry
+                    <span class="item-note">A classic chase cartoon with Tom the cat and Jerry the mouse.</span>
+                  </li>
+                  <li
+                    class="reference-item"
+                    data-image-url="https://4kwallpapers.com/images/wallpapers/doraemon-5k-1920x1080-13819.jpg"
+                    data-image-alt="Doraemon character image"
+                  >
+                    Doraemon
+                    <span class="item-note">A friendly robot cat from the future who helps Nobita.</span>
+                  </li>
+                </ol>
+                <h3 id="books-heading">Three Places</h3>
+                <ul aria-labelledby="books-heading" class="reference-list">
+                  <li
+                    class="reference-item"
+                    data-image-url="images/taj-mahal.jpg"
+                    data-image-alt="Taj Mahal in Agra, India"
+                  >
+                    Taj Mahal
+                    <span class="item-note">A famous white marble monument in Agra, India.</span>
+                  </li>
+                  <li
+                    class="reference-item"
+                    data-image-url="images/red-fort.jpg"
+                    data-image-alt="Red Fort in Delhi, India"
+                  >
+                    Red Fort
+                    <span class="item-note">A historic fort in Delhi known for red sandstone walls.</span>
+                  </li>
+                  <li
+                    class="reference-item"
+                    data-image-url="images/eiffel-tower.jpg"
+                    data-image-alt="Eiffel Tower in Paris, France"
+                  >
+                    Eiffel Tower
+                    <span class="item-note">An iconic iron tower and world-famous landmark in Paris.</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="references-image-column">
+                <figure class="reference-image-panel card">
+                  <div class="image-container">
+                    <img
+                      id="reference-image"
+                      src="https://wallpapers.com/images/hd/fly-swatter-oggy-and-the-cockroaches-h4sxxn3xmkdqdz8m.jpg"
+                      alt="Oggy and the Cockroaches cartoon poster"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption id="reference-image-caption">
+                    Click any cartoon or place title to update this image.
+                  </figcaption>
+                </figure>
+                <div class="media-actions" aria-label="Reference image actions">
+                  <a
+                    id="download-image-button"
+                    class="action-button"
+                    href="https://wallpapers.com/images/hd/fly-swatter-oggy-and-the-cockroaches-h4sxxn3xmkdqdz8m.jpg"
+                    download="reference-image.jpg"
+                  >
+                    <svg
+                      class="action-button__icon"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M12 4.5V14.25M12 14.25L8.25 10.5M12 14.25L15.75 10.5M4.5 16.5V18.75H19.5V16.5" />
+                    </svg>
+                    Download
+                  </a>
+                  <button id="upload-image-button" type="button" class="action-button">
+                    <svg
+                      class="action-button__icon"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M12 19.5V9.75M12 9.75L8.25 13.5M12 9.75L15.75 13.5M4.5 7.5V5.25H19.5V7.5" />
+                    </svg>
+                    Upload
+                  </button>
+                  <input
+                    id="upload-image-input"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="comparison" class="section content-section card" aria-labelledby="table-heading">
+            <h2 id="table-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">table_view</span>
+              Cartoons and Places Comparison
+            </h2>
+            <p>
+              This table gives a quick view of category and rating for the current reference list.
+            </p>
+            <table>
+              <caption>
+                Category and rating of selected cartoons and places
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Oggy and the Cockroaches</td>
+                  <td>Cartoon</td>
+                  <td>9/10</td>
+                </tr>
+                <tr>
+                  <td>Tom and Jerry</td>
+                  <td>Cartoon</td>
+                  <td>9/10</td>
+                </tr>
+                <tr>
+                  <td>Doraemon</td>
+                  <td>Cartoon</td>
+                  <td>8/10</td>
+                </tr>
+                <tr>
+                  <td>Taj Mahal</td>
+                  <td>Place</td>
+                  <td>10/10</td>
+                </tr>
+                <tr>
+                  <td>Red Fort</td>
+                  <td>Place</td>
+                  <td>8/10</td>
+                </tr>
+                <tr>
+                  <td>Eiffel Tower</td>
+                  <td>Place</td>
+                  <td>9/10</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section id="typography" class="section content-section card card--elevated" aria-labelledby="typography-heading">
+            <h2 id="typography-heading" class="heading-with-icon">
+              <svg
+                class="icon-svg icon icon--heading"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 7H20"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9 7V18"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15 11V18"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Typography Demo
+            </h2>
+            <p>
+              This section lets you check text readability by changing font weight
+              with a simple slider.
+            </p>
+            <div class="weight-control card">
+              <label for="font-weight-slider">
+                Sample font weight
+                <output id="font-weight-value" for="font-weight-slider">400</output>
+              </label>
+              <p>
+                Move this slider to update the text sample below.
+              </p>
+              <input
+                id="font-weight-slider"
+                type="range"
+                min="100"
+                max="900"
+                step="1"
+                value="400"
+              />
+              <p id="weight-sample" class="dynamic-weight-sample">
+                This sample updates live when you move the slider.
+              </p>
+            </div>
+            <p>
+              A small script updates the font weight value in real time.
+            </p>
+          </section>
+
+          <section id="palette" class="section content-section content-section--supporting card card--compact" aria-labelledby="palette-heading">
+            <h2 id="palette-heading" class="heading-with-icon">
+              <span class="material-symbols-outlined icon icon--heading" aria-hidden="true">palette</span>
+              Color Palette
+            </h2>
+            <p>
+              <img
+                class="decorative-png"
+                src="images/tick-transparent.png"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+              />
+              These swatches are derived from one accent hue and adjusted by
+              saturation and lightness to create a small, consistent scale.
+            </p>
+            <div class="palette-grid" role="list" aria-label="Accent-based color swatches">
+              <div class="swatch swatch--1" role="listitem">
+                <span class="swatch__value">hsl(248, 35%, 35%)</span>
+              </div>
+              <div class="swatch swatch--2" role="listitem">
+                <span class="swatch__value">hsl(248, 48%, 40%)</span>
+              </div>
+              <div class="swatch swatch--3" role="listitem">
+                <span class="swatch__value">hsl(248, 38%, 50%)</span>
+              </div>
+              <div class="swatch swatch--4" role="listitem">
+                <span class="swatch__value">hsl(248, 52%, 50%)</span>
+              </div>
+              <div class="swatch swatch--5" role="listitem">
+                <span class="swatch__value">hsl(248, 58%, 56%)</span>
+              </div>
+              <div class="swatch swatch--6" role="listitem">
+                <span class="swatch__value">hsl(248, 44%, 62%)</span>
+              </div>
+              <div class="swatch swatch--7" role="listitem">
+                <span class="swatch__value">hsl(248, 36%, 70%)</span>
+              </div>
+              <div class="swatch swatch--8" role="listitem">
+                <span class="swatch__value">hsl(248, 28%, 78%)</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <footer class="section">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3>UI Assignment</h3>
+            <p>Created as a simple demo page for HTML, CSS, and basic JS drills.</p>
+          </div>
+          <div class="footer-column">
+            <h3>Navigate</h3>
+            <ul>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#story">Story</a></li>
+              <li><a href="#references">References</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3>More</h3>
+            <ul>
+              <li><a href="#comparison">Comparison</a></li>
+              <li><a href="#typography">Typography</a></li>
+              <li><a href="#palette">Palette</a></li>
+            </ul>
+          </div>
+        </div>
+        <p>Created Demo UI from drills.</p>
+        <a class="back-to-top" href="#page-top" aria-label="Back to top">↑</a>
+      </footer>
+    </div>
+    <script>
+      const themeToggleButton = document.getElementById("theme-toggle");
+      const themeIcon = themeToggleButton.querySelector("span");
+      const fontWeightSlider = document.getElementById("font-weight-slider");
+      const fontWeightValue = document.getElementById("font-weight-value");
+      const topNavToggleButton = document.getElementById("top-nav-toggle");
+      const topNavLinks = document.getElementById("top-nav-links");
+      const topNavAnchors = Array.from(document.querySelectorAll(".top-nav-links a"));
+      const sidebarToggleButton = document.getElementById("sidebar-toggle");
+      const pageLayout = document.querySelector(".layout");
+      const sideNavLinks = Array.from(document.querySelectorAll(".side-nav a"));
+      const sectionsForSideNav = sideNavLinks
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+      const referenceImage = document.getElementById("reference-image");
+      const referenceImageCaption = document.getElementById("reference-image-caption");
+      const referenceItems = Array.from(document.querySelectorAll(".reference-item"));
+      const uploadImageButton = document.getElementById("upload-image-button");
+      const uploadImageInput = document.getElementById("upload-image-input");
+      const downloadImageButton = document.getElementById("download-image-button");
+      const themeStorageKey = "ui-theme-preference";
+      const heroImageChoices = [
+        "https://picsum.photos/id/20/1800/1000",
+        "https://picsum.photos/id/24/1800/1000",
+        "https://picsum.photos/id/42/1800/1000",
+        "https://picsum.photos/id/48/1800/1000",
+      ];
+
+      const randomHeroImage =
+        heroImageChoices[Math.floor(Math.random() * heroImageChoices.length)];
+      document.documentElement.style.setProperty(
+        "--hero-image",
+        `url("${randomHeroImage}")`
+      );
+
+      const applyTheme = (theme) => {
+        if (theme === "dark") {
+          document.documentElement.dataset.theme = "dark";
+        } else {
+          delete document.documentElement.dataset.theme;
+        }
+      };
+
+      const updateThemeToggleUI = () => {
+        const isDarkMode = document.documentElement.dataset.theme === "dark";
+        themeIcon.textContent = isDarkMode ? "☀️" : "🌙";
+        themeToggleButton.setAttribute(
+          "aria-label",
+          isDarkMode ? "Enable light theme" : "Enable dark theme"
+        );
+      };
+
+      const savedTheme = localStorage.getItem(themeStorageKey);
+      applyTheme(savedTheme === "dark" ? "dark" : "light");
+      updateThemeToggleUI();
+
+      themeToggleButton.addEventListener("click", () => {
+        const nextTheme =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        applyTheme(nextTheme);
+        localStorage.setItem(themeStorageKey, nextTheme);
+        updateThemeToggleUI();
+      });
+
+      const updateDynamicWeight = (value) => {
+        document.documentElement.style.setProperty("--sample-weight", value);
+        fontWeightValue.value = value;
+        fontWeightValue.textContent = value;
+      };
+
+      if (fontWeightSlider && fontWeightValue) {
+        updateDynamicWeight(fontWeightSlider.value);
+        fontWeightSlider.addEventListener("input", (event) => {
+          updateDynamicWeight(event.target.value);
+        });
+      }
+
+      const closeTopNav = () => {
+        topNavLinks.classList.remove("is-open");
+        topNavToggleButton.setAttribute("aria-expanded", "false");
+      };
+
+      const closeSidebar = () => {
+        pageLayout.classList.remove("sidebar-open");
+        sidebarToggleButton.setAttribute("aria-expanded", "false");
+      };
+
+      topNavToggleButton.addEventListener("click", () => {
+        const isOpen = topNavLinks.classList.toggle("is-open");
+        topNavToggleButton.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      sidebarToggleButton.addEventListener("click", () => {
+        const isOpen = pageLayout.classList.toggle("sidebar-open");
+        sidebarToggleButton.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      topNavAnchors.forEach((link) => {
+        link.addEventListener("click", closeTopNav);
+      });
+
+      sideNavLinks.forEach((link) => {
+        link.addEventListener("click", closeSidebar);
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) {
+          closeTopNav();
+          closeSidebar();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeTopNav();
+          closeSidebar();
+        }
+      });
+
+      const updateDownloadLink = (url, filename) => {
+        downloadImageButton.href = url;
+        downloadImageButton.download = filename;
+      };
+
+      const setReferenceImage = (imageUrl, imageAlt, captionText) => {
+        referenceImage.src = imageUrl;
+        referenceImage.alt = imageAlt;
+        if (captionText) {
+          referenceImageCaption.textContent = captionText;
+        }
+        updateDownloadLink(imageUrl, "reference-image.jpg");
+      };
+
+      updateDownloadLink(referenceImage.currentSrc || referenceImage.src, "reference-image.jpg");
+
+      referenceItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const imageUrl = item.dataset.imageUrl;
+          const imageAlt = item.dataset.imageAlt || "Selected reference image";
+          const note = item.querySelector(".item-note");
+          const captionText = (note ? item.textContent.replace(note.textContent, "") : item.textContent).trim();
+
+          referenceItems.forEach((entry) => entry.classList.remove("is-selected"));
+          item.classList.add("is-selected");
+          setReferenceImage(imageUrl, imageAlt, captionText);
+        });
+      });
+
+      uploadImageButton.addEventListener("click", () => {
+        uploadImageInput.click();
+      });
+
+      uploadImageInput.addEventListener("change", () => {
+        const selectedFile = uploadImageInput.files && uploadImageInput.files[0];
+        if (!selectedFile) {
+          return;
+        }
+
+        const uploadedImageUrl = URL.createObjectURL(selectedFile);
+        setReferenceImage(
+          uploadedImageUrl,
+          "User uploaded reference image",
+          `Uploaded image: ${selectedFile.name}`
+        );
+        updateDownloadLink(uploadedImageUrl, selectedFile.name || "uploaded-image.jpg");
+      });
+
+      const highlightSideNav = (id) => {
+        sideNavLinks.forEach((link) => {
+          const isActive = link.getAttribute("href") === `#${id}`;
+          link.classList.toggle("is-active", isActive);
+          if (isActive) {
+            link.setAttribute("aria-current", "true");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+      };
+
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          const visibleSections = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+          if (visibleSections.length > 0) {
+            highlightSideNav(visibleSections[0].target.id);
+          }
+        },
+        {
+          threshold: [0.25, 0.5, 0.75],
+          rootMargin: "-20% 0px -55% 0px",
+        }
+      );
+
+      sectionsForSideNav.forEach((section) => sectionObserver.observe(section));
+      highlightSideNav("hero");
+    </script>
+  </body>
+</html>

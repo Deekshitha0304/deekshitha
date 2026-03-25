@@ -11,6 +11,9 @@
 
 
 import type { Metadata } from "next"
+import Link from "next/link"
+
+
 
 export const metadata: Metadata = {
   title: "Task Notes - Task Management App",
@@ -36,12 +39,12 @@ export default function HomePage() {
       </p>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <a
+        <Link
           href="/tasks"
           className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
         >
           Go to Tasks
-        </a>
+        </Link>
         <a
           href="/about"
           className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 shadow-sm transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
